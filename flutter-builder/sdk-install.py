@@ -95,8 +95,8 @@ print('build-tools done ✓')
 # platforms
 print('creating platforms')
 
-os.system(f'cp -r {src_dir}/platform-33_r02 {sdk_path}/platforms')
-os.rename(sdk_path + '/platforms/android-13', sdk_path + '/platforms/android-31')
+os.system(f'cp -r {src_dir}/platform-31_r01 {sdk_path}/platforms')
+os.rename(sdk_path + '/platforms/android-12', sdk_path + '/platforms/android-31')
 with open(sdk_path + '/platforms/android-31/package.xml', 'w') as file:
     file.write(platforms_xml)
 print('platforms done ✓')

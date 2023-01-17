@@ -8,7 +8,7 @@ https://dl.google.com/android/repository/build-tools_r33-linux.zip
 https://dl.google.com/android/repository/sys-img/android/x86_64-31_r03.zip
 https://dl.google.com/android/repository/sys-img/google_apis_playstore/x86_64-33_r06.zip
 https://dl.google.com/android/repository/sys-img/google_apis/x86_64-33_r06.zip
-https://r2---sn-gvnuxaxjvh-v8cs.gvt1.com/edgedl/android/repository/emulator-linux_x64-9189900.zip?cms_redirect=yes&mh=6J&mip=212.20.19.75&mm=28&mn=sn-gvnuxaxjvh-v8cs&ms=nvh&mt=1672301258&mv=u&mvi=2&pcm2cms=yes&pl=24&rmhost=r8---sn-gvnuxaxjvh-v8cs.gvt1.com&shardbypass=sd&smhost=r1---sn-gvnuxaxjvh-v8c6.gvt1.com
+https://r2---sn-gvnuxaxjvh-v8cs.gvt1.com/edgedl/android/repository/emulator-linux_x64-9189900.zip
 https://dl.google.com/android/repository/platform-31_r01.zip
 https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
 https://dl.google.com/android/repository/commandlinetools-linux-9123335_latest.zip

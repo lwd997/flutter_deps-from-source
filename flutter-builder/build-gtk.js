@@ -112,11 +112,11 @@ const installGTK = async () => {
     await runBash([`cd ${config.src}/gtk+-3.3.2/ make && make install`])
 }
 const buildGtk = async () => {
-    // await installPrimaryBins()
-    // await installPKGConfig()
-    // await installXLibs()
-    // await installGlib()
-    // await installPango()
+    await installPrimaryBins()
+    await installPKGConfig()
+    await installXLibs()
+    await installGlib()
+    await installPango()
     await installGDK()
     await installAtk()
     await installGTK()
