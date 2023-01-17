@@ -1,5 +1,4 @@
-import os, shutil, sys, subprocess, time
-# from distutils.dir_util import copy_tree
+import os, shutil, sys
 
 src_dir = '/home/' + os.getlogin() + '/flutter-src'
 sdk_path = '/home/' + os.getlogin() + '/android-sdk' 
@@ -58,22 +57,6 @@ build_tools_xml = '''
 '''
 
 
-#add playstore apis ;)
-
-# def spinning_cursor():
-#     while True:
-#         for cursor in '|/-\\':
-#             yield cursor
-
-# spinner = spinning_cursor()
-
-# # def spin():
-# #     for _ in range(50):
-# #         sys.stdout.write(next(spinner))
-# #         sys.stdout.flush()
-# #         time.sleep(0.1)
-# #         sys.stdout.write('\b')
-
 if len(sys.argv):
     for arg in sys.argv:
         if '--sdk-path' in arg:
@@ -101,7 +84,6 @@ for filename in os.listdir(sdk_path):
 # build-tools
 print('creating build-tools')
 
-# copy_tree(src_dir + '/build-tools_r33-linux', sdk_path + '/build-tools')
 os.system(f'cp -r {src_dir}/build-tools_r33-linux {sdk_path}/build-tools')
 os.rename(sdk_path + '/build-tools/android-13', sdk_path + '/build-tools/30.0.3')
 with open(sdk_path + '/build-tools/30.0.3/package.xml', 'w') as file:
@@ -113,7 +95,6 @@ print('build-tools done ✓')
 # platforms
 print('creating platforms')
 
-# copy_tree(src_dir + '/platform-33_r02', sdk_path + '/platforms')
 os.system(f'cp -r {src_dir}/platform-33_r02 {sdk_path}/platforms')
 os.rename(sdk_path + '/platforms/android-13', sdk_path + '/platforms/android-31')
 with open(sdk_path + '/platforms/android-31/package.xml', 'w') as file:
@@ -123,7 +104,6 @@ print('platforms done ✓')
 # cmdline-tools
 print('creating cmdline-tools')
 
-# copy_tree(src_dir + '/commandlinetools-linux-9123335_latest', sdk_path + '/cmdline-tools')
 os.system(f'cp -r {src_dir}/commandlinetools-linux-9123335_latest {sdk_path}/cmdline-tools')
 
 os.rename(sdk_path + '/cmdline-tools/cmdline-tools', sdk_path + '/cmdline-tools/latest')
@@ -132,7 +112,6 @@ print('cmdline-tools done ✓')
 # platform-tools
 print('creating platform-tools')
 
-# copy_tree(src_dir + '/platform-tools_r33.0.1-linux/platform-tools', sdk_path + '/platform-tools')
 os.system(f'cp -r {src_dir}/platform-tools_r33.0.1-linux/platform-tools {sdk_path}/platform-tools')
 
 print('platform-tools done ✓')
@@ -140,8 +119,6 @@ print('platform-tools done ✓')
 
 #emulator 
 print('creating emulator')
-# os.makedirs(sdk_path + '/emulator')
-# copy_tree(src_dir + '/emulator-linux_x64-9189900/emulator', sdk_path + '/emulator')
 os.system(f'cp -r {src_dir}/emulator-linux_x64-9189900/emulator {sdk_path}/emulator')
 
 with open(sdk_path + '/emulator/package.xml', 'w') as file:
@@ -180,34 +157,21 @@ print('creating system-images')
 os.makedirs(sdk_path + '/system-images/android-33')
 os.makedirs(sdk_path + '/system-images/android-31')
 
-#if os.path.exists(sdk_path + '/x86_64-33_r06(1)'): 
-#    os.rename(src_dir + '/x86_64-33_r06(1)', src_dir + '/google_apis')
-
-# copy_tree(src_dir + '/x86_64-31_r03', sdk_path + '/system-images/android-33/google_apis')
-# copy_tree(src_dir + '/x86_64-31_r03', sdk_path + '/system-images/android-31/default')
-# copy_tree(src_dir + '/x86_64-33_r06', sdk_path + '/system-images/android-33/google_apis_playstore')
 
 os.system(f'cp -r {src_dir}/x86_64-31_r03 {sdk_path}/system-images/android-31/default')
 os.system(f'cp -r {src_dir}/x86_64-33_r06 {sdk_path}/system-images/android-33/google_apis_playstore')
 os.system(f'cp -r "{src_dir}/x86_64-33_r06(1)" {sdk_path}/system-images/android-33/google_apis')
 
-# optimization ;)
-# bash_string = 'tee '+ src_dir + '/x86_64-31_r03' + ' ' + sdk_path + '/system-images/android-33/google_apis' + ' < '+ sdk_path + '/system-images/android-31/default' +' >/dev/null'
-# print(bash_string)
-# copy_multiple = subprocess.run([bash_string])
-# copy_multiple.wait()
 
 print('system-images done ✓')
 #sdk-tools
 print('creating sdk-tools')
-# copy_tree(src_dir + '/sdk-tools-linux-4333796', sdk_path + '/sdk-tools')
 os.system(f'cp -r {src_dir}/sdk-tools-linux-4333796/tools {sdk_path}/tools')
 print('sdk-tools done ✓')
 
 
 #patcher
 print('creating patcher')
-# copy_tree(src_dir + '/sdk-tools-linux-4333796', sdk_path + '/sdk-tools')
 os.makedirs(sdk_path + '/patcher')
 os.system(f'cp -r {src_dir}/3534162-studio.sdk-patcher/sdk-patcher {sdk_path}/patcher/v4')
 
