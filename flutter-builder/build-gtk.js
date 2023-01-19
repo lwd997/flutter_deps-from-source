@@ -64,13 +64,6 @@ const installExperimental = async () =>  {
             }
         )
 
-        // await fs.writeFile(
-        //     `${config.src}/intltool-0.40.2/intltool-update`,
-        //     content,
-        //     (err) => {
-        //         if (err) terminate(err)
-        //     }
-        // )
     })
 
     await runBash([
@@ -81,9 +74,6 @@ const installExperimental = async () =>  {
 
 
 
-    // setTimeout(() => {
-    //     console.log('waited');
-    // }, 2000);
     await runBash([`cd ${config.src}/intltool-0.40.2/ && make && make install`])
     await runBash([
         
@@ -91,7 +81,6 @@ const installExperimental = async () =>  {
         `cd ${config.src}/libXtst-1.2.2/ && ./configure LDFLAGS='-L/home/user/gtk/lib -L/home/user/gtk/lib/pkgconfig' CFLAGS='-I/home/user/gtk/include -I/home/user/gtk/include/X11' --prefix=${config.gtkPath} && make && make install`,
         `cd ${config.src}/at-spi2-core-2.13.92/ && ./configure --x-includes=/home/user/gtk/include --x-libraries=/home/user/gtk/lib --prefix=${config.gtkPath} && make && make install`,
         `cd ${config.src}/at-spi2-atk-2.1.3/ && ./configure --x-includes=/home/user/gtk/include --x-libraries=/home/user/gtk/lib --prefix=${config.gtkPath} && make && make install`, 
-        // `cd ${config.src}/at-spi2-atk-2.1.3/ && ./configure --prefix=${config.gtkPath} && make && make install`, 
     ])
 }
     
