@@ -59,9 +59,9 @@ build_tools_xml = '''
 
 if len(sys.argv):
     for arg in sys.argv:
-        if '--sdk-path' in arg:
+        if '--prefix' in arg:
             sdk_path = arg.split('=')[1]
-        elif '--src-dir' in arg:
+        elif '--src' in arg:
             src_dir = arg.split('=')[1]
         
 

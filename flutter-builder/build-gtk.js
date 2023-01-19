@@ -6,12 +6,12 @@ const {runBash, terminate, moveFolder} = require('./tools')
 
 config.gtkPath = config.home + '/gtk'
 config.src = config.home + '/flutter-src'
-
+let newLibs = false
 
 for (const arg of process.argv) {
     if (arg.includes('--src=')) config.src = arg.split('=')[1]
     else if (arg.includes('--prefix=')) config.gtkPath = arg.split('=')[1]
-    else if (arg.includes('--add-path=')) config.addToPath = +arg.split('=')[1]
+    else if (arg.includes('--newLibs=')) newLibs = true
 }
 
 
@@ -50,6 +50,52 @@ const installXLibs = async () =>
     ])
 
 
+const installExperimental = async () =>  {
+
+
+    await fs.readFile(`${__dirname}/patch.txt`, async (err, content) => {
+        if (err) terminate(err)
+        
+        await fs.writeFile(
+            `${config.src}/intltool-0.40.2/intltool-update.in`,
+            content,
+            (err) => {
+                if (err) terminate(err)
+            }
+        )
+
+        // await fs.writeFile(
+        //     `${config.src}/intltool-0.40.2/intltool-update`,
+        //     content,
+        //     (err) => {
+        //         if (err) terminate(err)
+        //     }
+        // )
+    })
+
+    await runBash([
+        `cd ${config.src}/dbus-1.6.4/   && ./configure LDFLAGS='-L/home/user/gtk/lib -L/home/user/gtk/lib/pkgconfig' CFLAGS='-I/home/user/gtk/include -I/home/user/gtk/include/X11' --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/intltool-0.40.2/ && ./configure LDFLAGS='-L/home/user/gtk/lib -L/home/user/gtk/lib/pkgconfig' CFLAGS='-I/home/user/gtk/include -I/home/user/gtk/include/X11' --prefix=${config.gtkPath}`,
+    ])
+
+
+
+
+    // setTimeout(() => {
+    //     console.log('waited');
+    // }, 2000);
+    await runBash([`cd ${config.src}/intltool-0.40.2/ && make && make install`])
+    await runBash([
+        
+        `cd ${config.src}/recordproto-1.14/ && ./configure LDFLAGS='-L/home/user/gtk/lib -L/home/user/gtk/lib/pkgconfig' CFLAGS='-I/home/user/gtk/include -I/home/user/gtk/include/X11' --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/libXtst-1.2.2/ && ./configure LDFLAGS='-L/home/user/gtk/lib -L/home/user/gtk/lib/pkgconfig' CFLAGS='-I/home/user/gtk/include -I/home/user/gtk/include/X11' --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/at-spi2-core-2.13.92/ && ./configure --x-includes=/home/user/gtk/include --x-libraries=/home/user/gtk/lib --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/at-spi2-atk-2.1.3/ && ./configure --x-includes=/home/user/gtk/include --x-libraries=/home/user/gtk/lib --prefix=${config.gtkPath} && make && make install`, 
+        // `cd ${config.src}/at-spi2-atk-2.1.3/ && ./configure --prefix=${config.gtkPath} && make && make install`, 
+    ])
+}
+    
+
 const installGlib = async () =>
     await runBash([
         `cd ${config.src}/zlib-1.2.11/  && ./configure --prefix=${config.gtkPath} && make && make install`,
@@ -59,13 +105,13 @@ const installGlib = async () =>
         `cd ${config.src}/pcre-8.13/  && ./configure --prefix=${config.gtkPath} && make && make install`,
         `cd ${config.src}/libpng-1.6.37/ && ./configure CPPFLAGS="-I${config.gtkPath}/include" LDFLAGS="-L${config.gtkPath}/lib" --prefix=${config.gtkPath} && make && make install`,
         `cd ${config.src}/jpegsrc.v9d/jpeg-9d/  && ./configure --prefix=${config.gtkPath} && make && make install`,
-        `cd ${config.src}/tiff-4.0.9/  && ./configure CPPFLAGS="-I${config.gtkPath}/include -I/home/user/libjpeg_BUILD/include" LDFLAGS="-L/home/user/zlib_BUILD/lib -L${config.gtkPath}/lib" --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/tiff-4.0.9/  && ./configure CPPFLAGS="-I${config.gtkPath}/include" LDFLAGS="-L${config.gtkPath}/lib" --prefix=${config.gtkPath} && make && make install`,
         `cd ${config.src}/expat-2.5.0/  && ./configure --prefix=${config.gtkPath} && make && make install`,
         `cd ${config.src}/re2c-1.0.1/  && ./configure --prefix=${config.gtkPath} && make && make install`,
         `cd ${config.src}/gperf-3.1/  && ./configure --prefix=${config.gtkPath} && make && make install`,
         `cd ${config.src}/bison-3.2.3/  && ./configure --prefix=${config.gtkPath} && make && make install`,
         `cd ${config.src}/flex-2.6.1/  && ./configure --prefix=${config.gtkPath} && make && make install`,
-        `cd ${config.src}/glib-2.56.2/  && ./configure --prefix=${config.gtkPath} --enable-libmount=no --with-pcre=internal && make && make install`,
+        `cd ${config.src}/glib-2.56.2/  && ./configure --prefix=${config.gtkPath} CPPFLAGS="-I${config.gtkPath}/include" LDFLAGS="-L${config.gtkPath}/lib" --enable-libmount=no --with-pcre=internal && make && make install`,
     ])
 
 const installPango = async () =>
@@ -119,6 +165,7 @@ const buildGtk = async () => {
     await installPango()
     await installGDK()
     await installAtk()
+    if (newLibs) await installExperimental()
     await installGTK()
 }
 

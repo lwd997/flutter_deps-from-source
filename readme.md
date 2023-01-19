@@ -4,8 +4,6 @@
 [vscode dart](https://github.com/Dart-Code/Dart-Code/releases/download/v3.56.0/dart-code-3.56.0.vsix)
 [vscode flutter](https://github.com/Dart-Code/Flutter/releases/download/v3.56.0/flutter-3.56.0.vsix)
 
-установить и прописать путь до /bin
-
 
 ## Android SDK 
 
@@ -316,7 +314,7 @@ CPPFLAGS="-I/home/user/tiff_BUILD/include -I/home/user/libjpeg_BUILD/include" LD
 > создаем папку .gradle в домашней папке
 > в нее копируем папку caches
 > создаем папку wrapper, в ней dists, в ней gradle-7.4-all, в ней aadb4xli5jkdsnukm30eibyiu
-> в послеюнюю перемещаем архив gradle-7.4-all.zip
+> в последнюю перемещаем архив gradle-7.4-all.zip
 
 > в проекте flutter заходим в android/gradlew
 > в последней строке в конце дописываем --offline
@@ -340,7 +338,7 @@ flutter create -a java --offline
 flutter emulators --create --name emulator_name
 ```
 
-Запустить сушествующий
+Запустить существующий
 ```sh
 flutter emulators --launch emulator_name
 ```
@@ -380,13 +378,30 @@ export LIBFFI_LIBS="-L/home/user/gtk/lib -lffi"
 
 
 
+---------------
+
+## flutter-builder
+
+1. Все архивы распаковать в одну папку под названием flutter-src
+2. Запустить prebuild.js, после открыть новый терминал
+3. Запустить `bash ./runall.sh`, если нравятся стандартные пути.
+<br>
+Если нужны другие пути, то вызвать скрипты напрямую:
+1. `--prefix=/path` для пути установки
+2. `--src=/path`для папки с распакованными архивами
+<br>
+Чтобы поставить at-spi2 и зависимости `node build-gtk.js --newLibs` 
 
 
 
-  /home/rle/.gradle/wrapper/dists/gradle-7.4-all/aadb4xli5jkdsnukm30eibyiu
+<!-- ---------------
 
-  flutter create -i objc -a java new_app
-  или
-  flutter create -a java new_app
+dbus /configure --prefix=/home/user/gtk LDFLAGS='-L/home/user/gtk/lib' CFLAGS='-I/home/user/gtk/include'
+intltools c с патчем https://github.com/maximeh/buildroot/blob/master/package/intltool/0001-perl-5.26-compatibility.patch
+renderproto (x libs)
+libxtst (x libs)
+at-spi2-core
+as-spi2-atk ./configure --prefix=/home/user/gtk --x-includes=/home/user/gtk/include --x-libraries=/home/user/gtk/lib -->
+
 
 

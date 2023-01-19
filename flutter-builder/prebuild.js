@@ -4,6 +4,11 @@ const {terminate} = require('./tools')
 
 config.gtkPath = config.home + '/gtk'
 
+for (const arg of process.argv) {
+    if (arg.includes('--src=')) config.src = arg.split('=')[1]
+    else if (arg.includes('--prefix=')) config.gtkPath = arg.split('=')[1]
+}
+
 fs.readFile(`${config.home}/.bashrc`, (err, content) => {
     if (err) terminate(err)
 
