@@ -61,5 +61,5 @@ https://ftp.acc.umu.se/pub/GNOME/sources/intltool/0.40/intltool-0.40.2.tar.gz
 https://ftp.acc.umu.se/pub/GNOME/sources/at-spi2-core/2.13/at-spi2-core-2.13.92.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXtst-1.2.2.tar.gz
 https://xorg.freedesktop.org/archive/individual/proto/recordproto-1.14.tar.gz
-
+https://github.com/lwd997/flutter_deps-from-source/archive/refs/tags/builder.zip
 https://github.com/lwd997/flutter_deps-from-source/releases/download/updated_caches/caches.zip
