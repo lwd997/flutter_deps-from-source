@@ -6,12 +6,12 @@ const {runBash, terminate, moveFolder} = require('./tools')
 
 config.gtkPath = config.home + '/gtk'
 config.src = config.home + '/flutter-src'
-let newLibs = false
+let newLibs = true
 
 for (const arg of process.argv) {
     if (arg.includes('--src=')) config.src = arg.split('=')[1]
     else if (arg.includes('--prefix=')) config.gtkPath = arg.split('=')[1]
-    else if (arg.includes('--newLibs=')) newLibs = true
+    else if (arg.includes('--noNewLibs=')) newLibs = false
 }
 
 
@@ -31,22 +31,23 @@ const installPKGConfig = async () => await runBash([`cd ${config.src}/pkg-config
 
 const installXLibs = async () =>
     await runBash([
-        `cd ${config.src}/xproto-7.0.31/  && ./configure --prefix=${config.gtkPath} && make && make install`,
-        `cd ${config.src}/xextproto-7.3.0/  && ./configure --prefix=${config.gtkPath} && make && make install`,
-        `cd ${config.src}/xtrans-1.4.0/  && ./configure --prefix=${config.gtkPath} && make && make install`,
-        `cd ${config.src}/xcb-proto-1.14/  && ./configure --prefix=${config.gtkPath} && make && make install`,
-        `cd ${config.src}/libXau-1.0.11/  && ./configure --prefix=${config.gtkPath} && make && make install`,
-        `cd ${config.src}/libxcb-1.14/  && ./configure --prefix=${config.gtkPath} && make && make install`,
-        `cd ${config.src}/kbproto-1.0.7/  && ./configure --prefix=${config.gtkPath} && make && make install`,
-        `cd ${config.src}/inputproto-2.3.2/  && ./configure --prefix=${config.gtkPath} && make && make install`,
-        `cd ${config.src}/util-macros-1.17.1  && ./configure --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/util-macros-1.17.1 LDFLAGS='-L${config.gtkPath}/lib -L${config.gtkPath}/lib/pkgconfig' CFLAGS='-I${config.gtkPath}/include -I${config.gtkPath}/include/X11' && ./configure --prefix=${config.gtkPath} && make && make install`,
 
-        `cd ${config.src}/libX11-1.8/  && ./configure --prefix=${config.gtkPath} && make && make install`,
-        `cd ${config.src}/libXext-1.1.2/  && ./configure --prefix=${config.gtkPath} && make && make install`,
-        `cd ${config.src}/renderproto-0.11/  && ./configure --prefix=${config.gtkPath} && make && make install`,
-        `cd ${config.src}/libXrender-0.9.7/  && ./configure --prefix=${config.gtkPath} && make && make install`,
-        `cd ${config.src}/libXi-1.3.2/  && ./configure --prefix=${config.gtkPath} && make && make install`,
-        `cd ${config.src}/xinput-1.5.4/  && ./configure --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/xproto-7.0.31/  && ./configure LDFLAGS='-L${config.gtkPath}/lib -L${config.gtkPath}/lib/pkgconfig' CFLAGS='-I${config.gtkPath}/include -I${config.gtkPath}/include/X11' --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/xextproto-7.3.0/  && ./configure LDFLAGS='-L${config.gtkPath}/lib -L${config.gtkPath}/lib/pkgconfig' CFLAGS='-I${config.gtkPath}/include -I${config.gtkPath}/include/X11' --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/xtrans-1.4.0/  && ./configure LDFLAGS='-L${config.gtkPath}/lib -L${config.gtkPath}/lib/pkgconfig' CFLAGS='-I${config.gtkPath}/include -I${config.gtkPath}/include/X11' --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/xcb-proto-1.14/  && ./configure LDFLAGS='-L${config.gtkPath}/lib -L${config.gtkPath}/lib/pkgconfig' CFLAGS='-I${config.gtkPath}/include -I${config.gtkPath}/include/X11' --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/libXau-1.0.11/  && ./configure LDFLAGS='-L${config.gtkPath}/lib -L${config.gtkPath}/lib/pkgconfig' CFLAGS='-I${config.gtkPath}/include -I${config.gtkPath}/include/X11' --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/kbproto-1.0.7/  && ./configure LDFLAGS='-L${config.gtkPath}/lib -L${config.gtkPath}/lib/pkgconfig' CFLAGS='-I${config.gtkPath}/include -I${config.gtkPath}/include/X11' --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/inputproto-2.3.2/  && ./configure LDFLAGS='-L${config.gtkPath}/lib -L${config.gtkPath}/lib/pkgconfig' CFLAGS='-I${config.gtkPath}/include -I${config.gtkPath}/include/X11' --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/libxcb-1.14/  && ./configure LDFLAGS='-L${config.gtkPath}/lib -L${config.gtkPath}/lib/pkgconfig' CFLAGS='-I${config.gtkPath}/include -I${config.gtkPath}/include/X11' --prefix=${config.gtkPath} && make && make install`,
+
+        `cd ${config.src}/libX11-1.8/  && ./configure LDFLAGS='-L${config.gtkPath}/lib -L${config.gtkPath}/lib/pkgconfig' CFLAGS='-I${config.gtkPath}/include -I${config.gtkPath}/include/X11' --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/libXext-1.1.2/  && ./configure LDFLAGS='-L${config.gtkPath}/lib -L${config.gtkPath}/lib/pkgconfig' CFLAGS='-I${config.gtkPath}/include -I${config.gtkPath}/include/X11' --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/renderproto-0.11/  && ./configure LDFLAGS='-L${config.gtkPath}/lib -L${config.gtkPath}/lib/pkgconfig' CFLAGS='-I${config.gtkPath}/include -I${config.gtkPath}/include/X11' --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/libXrender-0.9.7/  && ./configure LDFLAGS='-L${config.gtkPath}/lib -L${config.gtkPath}/lib/pkgconfig' CFLAGS='-I${config.gtkPath}/include -I${config.gtkPath}/include/X11' --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/libXi-1.3.2/  && ./configure LDFLAGS='-L${config.gtkPath}/lib -L${config.gtkPath}/lib/pkgconfig' CFLAGS='-I${config.gtkPath}/include -I${config.gtkPath}/include/X11' --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/xinput-1.5.4/  && ./configure LDFLAGS='-L${config.gtkPath}/lib -L${config.gtkPath}/lib/pkgconfig' CFLAGS='-I${config.gtkPath}/include -I${config.gtkPath}/include/X11' --prefix=${config.gtkPath} && make && make install`,
     ])
 
 
@@ -67,20 +68,19 @@ const installExperimental = async () =>  {
     })
 
     await runBash([
-        `cd ${config.src}/dbus-1.6.4/   && ./configure LDFLAGS='-L/home/user/gtk/lib -L/home/user/gtk/lib/pkgconfig' CFLAGS='-I/home/user/gtk/include -I/home/user/gtk/include/X11' --prefix=${config.gtkPath} && make && make install`,
-        `cd ${config.src}/intltool-0.40.2/ && ./configure LDFLAGS='-L/home/user/gtk/lib -L/home/user/gtk/lib/pkgconfig' CFLAGS='-I/home/user/gtk/include -I/home/user/gtk/include/X11' --prefix=${config.gtkPath}`,
+        `cd ${config.src}/dbus-1.6.4/  && ./configure LDFLAGS='-L${config.gtkPath}/lib -L${config.gtkPath}/lib/pkgconfig' CFLAGS='-I${config.gtkPath}/include -I${config.gtkPath}/include/X11' --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/intltool-0.40.2/ && ./configure LDFLAGS='-L${config.gtkPath}/lib -L${config.gtkPath}/lib/pkgconfig' CFLAGS='-I${config.gtkPath}/include -I${config.gtkPath}/include/X11' --prefix=${config.gtkPath}`,
     ])
-
 
 
 
     await runBash([`cd ${config.src}/intltool-0.40.2/ && make && make install`])
     await runBash([
         
-        `cd ${config.src}/recordproto-1.14/ && ./configure LDFLAGS='-L/home/user/gtk/lib -L/home/user/gtk/lib/pkgconfig' CFLAGS='-I/home/user/gtk/include -I/home/user/gtk/include/X11' --prefix=${config.gtkPath} && make && make install`,
-        `cd ${config.src}/libXtst-1.2.2/ && ./configure LDFLAGS='-L/home/user/gtk/lib -L/home/user/gtk/lib/pkgconfig' CFLAGS='-I/home/user/gtk/include -I/home/user/gtk/include/X11' --prefix=${config.gtkPath} && make && make install`,
-        `cd ${config.src}/at-spi2-core-2.13.92/ && ./configure --x-includes=/home/user/gtk/include --x-libraries=/home/user/gtk/lib --prefix=${config.gtkPath} && make && make install`,
-        `cd ${config.src}/at-spi2-atk-2.1.3/ && ./configure --x-includes=/home/user/gtk/include --x-libraries=/home/user/gtk/lib --prefix=${config.gtkPath} && make && make install`, 
+        `cd ${config.src}/recordproto-1.14/ && ./configure LDFLAGS='-L${config.gtkPath}/lib -L${config.gtkPath}/lib/pkgconfig' CFLAGS='-I${config.gtkPath}/include -I${config.gtkPath}/include/X11' --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/libXtst-1.2.2/ && ./configure LDFLAGS='-L${config.gtkPath}/lib -L${config.gtkPath}/lib/pkgconfig' CFLAGS='-I${config.gtkPath}/include -I${config.gtkPath}/include/X11' --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/at-spi2-core-2.13.92/ && ./configure --x-includes=${config.gtkPath}/include --x-libraries=${config.gtkPath}/lib --prefix=${config.gtkPath} && make && make install`,
+        `cd ${config.src}/at-spi2-atk-2.1.3/ && ./configure --x-includes=${config.gtkPath}/include --x-libraries=${config.gtkPath}/lib --prefix=${config.gtkPath} && make && make install`, 
     ])
 }
     
